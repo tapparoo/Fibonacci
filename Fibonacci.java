@@ -8,6 +8,18 @@ public class Fibonacci{
     System.out.print("Enter a number: ");
     int fibNum = scanner.nextInt();
 
+    while(true){
+      if (fibNum > 42){
+        System.out.print("\t\t** WARNING **\n\tNumbers greater than 42 will begin " +
+          "to take a very long time\n\tTry a lower number? (Y/N): ");
+        if (scanner.next().toUpperCase().equals("Y")){
+          System.out.print("New number: ");
+          fibNum = scanner.nextInt();
+        }else
+          break;
+      }
+    }
+
     long d = new Date().getTime();
     System.out.println("\n*** Recursive function ***");
     System.out.println("The Fibonacci number in position " + fibNum + " is: " +
