@@ -1,3 +1,5 @@
+package drills;
+
 import java.util.Scanner;
 import java.util.Date;
 import java.util.HashMap;
@@ -5,10 +7,12 @@ import java.util.HashMap;
 public class Fibonacci {
 	public static void main(String args[]) {
 		Scanner scanner = new Scanner(System.in);
-		HashMap<Integer, Integer> hm = new HashMap<>();
+		HashMap<Integer, Long> hm = new HashMap<>();
 
 		System.out.print("Enter a number: ");
 		int fibNum = scanner.nextInt();
+		long fibArr[] = new long[fibNum]; // for last method
+		boolean skip = false;
 
 		if (fibNum > 42) {
 			while (true) {
@@ -17,28 +21,44 @@ public class Fibonacci {
 				if (scanner.next().toUpperCase().equals("Y")) {
 					System.out.print("New number: ");
 					fibNum = scanner.nextInt();
-				} else
+				} else {
+					System.out.print("\tSkip the slow method? (Y/N): ");
+					if (scanner.next().toUpperCase().equals("Y")) {
+						skip = true;
+					}
 					break;
+				}
 			}
 		}
+		long d, dd;
 
-		long d = new Date().getTime();
-		System.out.println("\n*** Recursive function ***");
-		System.out.println("The Fibonacci number in position " + fibNum + " is: " + recursiveFib(fibNum));
-		long dd = new Date().getTime();
-		System.out.println("This took: " + (dd - d) + " ms.");
+		if (!skip) {
+			d = new Date().getTime();
+			System.out.println("\n*** Slow Recursive function ***");
+			System.out.println("The Fibonacci number in position " + fibNum + " is: " + recursiveFib(fibNum));
+			dd = new Date().getTime();
+			System.out.println("This took: " + (dd - d) + " ms.");
+		}
 
 		d = new Date().getTime();
-		System.out.println("\n*** Quicker Recursive function ***");
+		System.out.println("\n*** Quicker Recursive function /w Map ***");
 		System.out.println("The Fibonacci number in position " + fibNum + " is: " + myQuickerRecursiveFib(fibNum, hm));
 		dd = new Date().getTime();
 		System.out.println("This took: " + (dd - d) + " ms.");
 
 		d = new Date().getTime();
-		System.out.println("\n*** My function ***");
+		System.out.println("\n*** With a for loop ***");
 		System.out.println("The Fibonacci number in position " + fibNum + " is: " + myFib(fibNum));
 		dd = new Date().getTime();
+		System.out.println("This took: " + (dd - d) + " ms.");
+
+		d = new Date().getTime();
+		System.out.println("\n*** Recursive with an array ***");
+		System.out.println("The Fibonacci number in position " + fibNum + " is: " + funWithArrays(fibNum, fibArr));
+		dd = new Date().getTime();
 		System.out.println("This took: " + (dd - d) + " ms.\n");
+
+		scanner.close();
 	}
 
 	// Standard recursive solution
@@ -52,7 +72,7 @@ public class Fibonacci {
 	}
 
 	// Store previous results in a map for future use
-	public static int myQuickerRecursiveFib(int n, HashMap<Integer, Integer> hm) {
+	public static long myQuickerRecursiveFib(int n, HashMap<Integer, Long> hm) {
 		if (n <= 0)
 			return 0;
 		else if (n == 1)
@@ -68,20 +88,33 @@ public class Fibonacci {
 	}
 
 	// With a loop
-	public static int myFib(int n) {
+	public static long myFib(long n) {
 		if (n <= 0)
 			return 0;
 		if (n == 1)
 			return 1;
 
-		int prev = 1;
-		int current = 1;
+		long prev = 1;
+		long current = 1;
 
 		for (int i = 2; i < n; i++) {
-			int temp = current + prev;
+			long temp = current + prev;
 			prev = current;
 			current = temp;
 		}
 		return current;
+	}
+
+	public static long funWithArrays(int i, long[] arr) {
+		if (i <= 0)
+			return 0;
+		else if (i == 1)
+			return 1;
+		else if (arr[i - 1] != 0) {
+			return arr[i - 1];
+		} else {
+			arr[i - 1] = funWithArrays(i - 1, arr) + funWithArrays(i - 2, arr);
+			return arr[i - 1];
+		}
 	}
 }
