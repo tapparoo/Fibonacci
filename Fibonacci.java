@@ -6,10 +6,23 @@ public class Fibonacci {
 	public static void main(String args[]) {
 		Scanner scanner = new Scanner(System.in);
 		HashMap<Integer, Long> hm = new HashMap<>();
-
-		System.out.print("Enter a number: ");
-		int fibNum = scanner.nextInt();
-		long fibArr[] = new long[fibNum]; // for last method
+		int fibNum;
+		long fibArr[]; // for last method
+		
+		while(true) {
+			try {
+				System.out.print("Enter a number: ");
+				fibNum = scanner.nextInt();
+				fibArr = new long[fibNum];
+				break;
+			}catch (Exception e) {
+				System.out.println("Invalid input. Try again? (Y/N): ");
+				if (!scanner.next().toUpperCase().equals("Y")) {
+					return;
+				}
+			}
+		}
+		
 		boolean skip = false;
 
 		if (fibNum > 42) {
