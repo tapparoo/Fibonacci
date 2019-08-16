@@ -73,7 +73,7 @@ public class Fibonacci {
 	}
 
 	// Standard recursive solution
-	public static int recursiveFib(int n) {
+	public static long recursiveFib(long n) {
 		if (n <= 0)
 			return 0;
 		else if (n == 1)
@@ -89,11 +89,9 @@ public class Fibonacci {
 		else if (n == 1)
 			return 1;
 		else if (hm.get(n) != null) {
-			// System.out.println("Grabbing " + n);
 			return hm.get(n);
 		} else {
 			hm.put(n, myQuickerRecursiveFib(n - 1, hm) + myQuickerRecursiveFib(n - 2, hm));
-			// System.out.println("Adding " + n);
 			return hm.get(n);
 		}
 	}
